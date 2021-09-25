@@ -59,7 +59,6 @@ function App() {
     [users]
   );
   const count = useMemo(() => countActiveUsers(users), [users]);
-  // const count = countActiveUsers(users);
   return (
     <>
       <CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate} />

@@ -1,29 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
+import { UserDispatch } from "./AppHooks";
 
-const User = React.memo(function User({ user, onRemove, onToggle }) {
-  useEffect(() => {
-    console.log("등장");
-    console.log(user);
-    return () => {
-      console.log("사라짐");
-      console.log(user);
-    };
-  }, [user]);
+const User = React.memo(function User({ user }) {
+  const dispatch = useContext(UserDispatch);
   return (
     <div>
-      <b style={{ cursor: "pointer", color: user.active ? "green" : "black" }} onClick={() => onToggle(user.id)}>
+      <b
+        style={{ cursor: "pointer", color: user.active ? "green" : "black" }}
+        onClick={() => {
+          dispatch({ type: "TOGGLE_USER", id: user.id });
+        }}
+      >
         {user.username}
       </b>
       <span>({user.email})</span>
-      <button onClick={() => onRemove(user.id)}>삭제</button>
+      <button
+        onClick={() => {
+          dispatch({ type: "REMOVE_USER", id: user.id });
+        }}
+      >
+        삭제
+      </button>
     </div>
   );
 });
-function UserList({ users, onRemove, onToggle }) {
+function UserList({ users }) {
   return (
     <div>
       {users.map((user) => (
-        <User user={user} key={user.id} onRemove={onRemove} onToggle={onToggle} />
+        <User user={user} key={user.id} />
       ))}
     </div>
   );
